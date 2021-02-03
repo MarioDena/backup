@@ -1,13 +1,24 @@
 <script>
   import { checkLocalUserPublic, signupUser } from "./../helpers/authActions.js";
   import { fade } from "svelte/transition";
-  import { Button, Container, ProgressLinear, Row, TextField, ProgressCircular } from "svelte-materialify";
+  import { Button, Container, ProgressLinear, Row, TextField, ProgressCircular, Select } from "svelte-materialify";
   import { navigate } from "svelte-routing";
   import generalAssets from "../data/Assets";
   import { onDestroy, onMount } from "svelte";
   import UIState from "../stores/UI";
   import userState from "../stores/User.js";
   import loadImages from "../helpers/ImageLoader.js";
+
+  import { dict, locale, t } from "../stores/i18n";
+  import translations from "../helpers/translations";
+
+  $: dict.set(translations);
+
+  const options = [
+    { name: "English", value: "En" },
+    { name: "Español", value: "Sp" },
+    { name: "Português", value: "Pr" },
+  ];
 
   let email;
   let password;
@@ -66,12 +77,16 @@
   <Container>
     <Row style="align-items: center; margin-top: 30px">
       <img in:fade class="logo" src={generalAssets.mainLogo} alt="" />
-      <img in:fade on:click={goToLogIn} class="apply" src={generalAssets.alreadyApplied} alt="apply" />
+      <div style="margin-left: 50px; width: 150px; margin-top: 10px"><Select bind:value={$locale} items={options} /></div>
+      <div on:click={goToLogIn} style="display: flex; margin-left: auto; cursor: pointer">
+        <p class="font" style="font-size: 22px; margin-left: auto">{$t("general.login")}</p>
+        <img in:fade class="apply" src={generalAssets.applyArrow} alt="apply" />
+      </div>
     </Row>
     <Row style="margin-top: 60px; min-height: 80vh; justify-content: center; align-items: center">
       <form in:fade on:submit={SignUp}>
         <div>
-          <h4 class="fontBold">Get started</h4>
+          <h4 class="fontBold">{$t("general.getStarted")}</h4>
           <div style="display: flex">
             <TextField
               hint={errorName}
@@ -80,8 +95,7 @@
               style="margin-bottom: 20px; margin-right: 10px; width: 100px"
               color="light-blue"
               filled={true}
-              bind:value={name}
-            >First name</TextField
+              bind:value={name}>{$t("general.firstName")}</TextField
             >
             <TextField
               error={$UIState.errors.lastname || $UIState.errors.general ? true : false}
@@ -90,8 +104,7 @@
               style="margin-bottom: 20px; margin-left: 10px; width: 100px"
               color="light-blue"
               filled={true}
-              bind:value={lastname}
-            >Last name</TextField
+              bind:value={lastname}>{$t("general.lastName")}</TextField
             >
           </div>
 
@@ -102,8 +115,7 @@
             style="margin-bottom: 20px"
             color="light-blue"
             filled={true}
-            bind:value={email}
-          >Your email</TextField
+            bind:value={email}>{$t("general.yourEmail")}</TextField
           >
           <TextField
             error={$UIState.errors.password || $UIState.errors.general ? true : false}
@@ -113,8 +125,7 @@
             type="password"
             color="light-blue"
             filled={true}
-            bind:value={password}
-          >Choose a password (min 6 characters)</TextField
+            bind:value={password}>{$t("general.pickPass")}</TextField
           >
           <TextField
             hint={errorconfirmPassword}
@@ -123,12 +134,10 @@
             type="password"
             color="light-blue"
             filled={true}
-            bind:value={confirmPassword}
-          >Repeat Password</TextField
+            bind:value={confirmPassword}>{$t("general.repeatPassword")}</TextField
           >
           <p class="font">
-            I agree to receive electronic communication about my account with ePioneers, a World Tech Inc brand and in accordance to the
-            company’s terms.
+            {$t("general.terms")}
           </p>
           {#if $UIState.loadingData === true}
             <ProgressCircular style="margin-left: 50%; transform: translate(-50%); margin-top: 50px;" indeterminate={true} />
@@ -136,7 +145,7 @@
             <img on:click={SignUp} class="loginButton" src={generalAssets.createAccount} alt="" />
           {/if}
 
-          <p class="smallwidth">By clicking “Create Account” I agree to ePioneers’ Terms of Use and Privacy Policy.</p>
+          <p class="smallwidth">{$t("general.byClicking")}</p>
         </div>
         <Button style="visibility:hidden" type="submit" on:click={SignUp} />
       </form>
@@ -188,11 +197,10 @@
   }
   .apply {
     cursor: pointer;
-    margin-left: auto;
-    margin-top: 10px;
+    margin-left: 10px;
+    margin-top: 5px;
     margin-right: 10px;
-    width: 222px;
-    height: 22px;
+    height: 23px;
   }
   .apply:hover {
     opacity: 0.5;

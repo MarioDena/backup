@@ -1,13 +1,24 @@
 <script>
   import applicationData from "../stores/ApplicationData.js";
   import { fade } from "svelte/transition";
-  import { Button, Container, Row, TextField, Textarea, ProgressLinear } from "svelte-materialify";
+  import { Button, Container, Row, TextField, Textarea, ProgressLinear, Select } from "svelte-materialify";
   import { navigate } from "svelte-routing";
   import generalAssets from "../data/Assets";
   import { onDestroy, onMount } from "svelte";
   import userState from "../stores/User";
   import UIState from "../stores/UI";
   import { checkLocalUserPrivate } from "../helpers/authActions";
+
+  import { dict, locale, t } from "../stores/i18n";
+  import translations from "../helpers/translations";
+
+  $: dict.set(translations);
+
+  const options = [
+    { name: "English", value: "En" },
+    { name: "Español", value: "Sp" },
+    { name: "Português", value: "Pr" },
+  ];
 
   let howYouLearnAboutus;
   let interest;
@@ -82,27 +93,28 @@
   <Container>
     <Row style="align-items: center; margin-top: 30px">
       <img in:fade class="logo" src={generalAssets.mainLogo} alt="" />
+      <div style="margin-left: 50px; width: 150px; margin-top: 10px"><Select bind:value={$locale} items={options} /></div>
     </Row>
     <Row style="margin-top: 60px; min-height: 80vh; justify-content: center; align-items: center">
       <form in:fade on:submit={continueToNextScreen}>
-        <h4 class="fontBold">ePioneers application</h4>
+        <h4 class="fontBold">{$t("general.apply")}</h4>
         <img style="margin-bottom: 20px" src={generalAssets.steps2} alt="" />
         <div class="containerApp">
-          <p class="fontBold marginTopSmall">How did you hear about the program?</p>
+          <p class="fontBold marginTopSmall">{$t("general.program")}</p>
           <TextField style="margin-bottom: 20px; margin-top: 20px" color="light-blue" filled={true} bind:value={howYouLearnAboutus}
-            >Please tell us how you learned about us.</TextField
+            >{$t("general.program2")}</TextField
           >
 
-          <p class="fontBold marginTopSmall">Please tell us about why you're interested in joining the program?</p>
+          <p class="fontBold marginTopSmall">{$t("general.interest")}</p>
           <Textarea style="margin-bottom: 20px; margin-top: 20px" color="light-blue" filled={true} bind:value={interest}
-            >We would love to learn more about you!</Textarea
+            >{$t("general.interest2")}</Textarea
           >
 
           <div style="display: flex; margin-top: 40px">
-            <section style="min-width: 40%; height: 58px; "><p class="selection2 fontBold">Have you been to Colombia before?</p></section>
+            <section style="min-width: 40%; height: 58px; "><p class="selection2 fontBold">{$t("general.beenTo")}</p></section>
             {#if beentoColombia === "Yes"}
               <section style="min-width: 30%; height: 58px; background-color: #f2f8f8;  ">
-                <p class="selection fontBold">Yes</p>
+                <p class="selection fontBold">{$t("general.yes")}</p>
                 <img class="selectedArrow" src={generalAssets.selectedArrow} alt="" />
               </section>
             {:else}
@@ -111,12 +123,14 @@
                   setBeenToColombia("Yes");
                 }}
                 style="min-width: 30%; height: 58px; "
-              ><p class="selection2 font">Yes</p></section>
+              >
+                <p class="selection2 font">{$t("general.yes")}</p>
+              </section>
             {/if}
 
             {#if beentoColombia === "No"}
               <section style="margin-left: 10px; min-width: 30%; height: 58px; background-color: #f2f8f8;  ">
-                <p class="selection fontBold">No</p>
+                <p class="selection fontBold">{$t("general.no")}</p>
                 <img class="selectedArrow" src={generalAssets.selectedArrow} alt="" />
               </section>
             {:else}
@@ -125,13 +139,15 @@
                   setBeenToColombia("No");
                 }}
                 style="min-width: 30%; height: 58px; "
-              ><p class="selection3 font">No</p></section>
+              >
+                <p class="selection3 font">{$t("general.no")}</p>
+              </section>
             {/if}
           </div>
 
           <div style="display: flex; margin-top: 40px">
             <section style="min-width: 40%; height: 58px; ">
-              <p class="selection2 fontBold">Do you have plans to travel to Colombia?</p>
+              <p class="selection2 fontBold">{$t("general.travel")}</p>
             </section>
             {#if planToColombia === "Yes"}
               <section style="min-width: 30%; height: 58px; background-color: #f2f8f8;  ">
@@ -144,7 +160,9 @@
                   setPlantoColombia("Yes");
                 }}
                 style="min-width: 30%; height: 58px; "
-              ><p class="selection2 font">Yes</p></section>
+              >
+                <p class="selection2 font">Yes</p>
+              </section>
             {/if}
 
             {#if planToColombia === "No"}
@@ -158,7 +176,9 @@
                   setPlantoColombia("No");
                 }}
                 style="min-width: 30%; height: 58px; "
-              ><p class="selection3 font">No</p></section>
+              >
+                <p class="selection3 font">No</p>
+              </section>
             {/if}
           </div>
 

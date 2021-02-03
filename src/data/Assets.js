@@ -39,6 +39,7 @@ const generalAssets = {
   searchDummy: "https://epioneers.s3.amazonaws.com/dashboard/searchDummy.png",
   conversationHead: "https://epioneers.s3.amazonaws.com/dashboard/conversationhead.png",
   cross: "https://epioneers.s3.amazonaws.com/dashboard/cross.png",
+  applyArrow: "https://epioneers.s3.amazonaws.com/applyArrow.png",
 };
 
 export default generalAssets;

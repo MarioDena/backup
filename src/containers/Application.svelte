@@ -1,13 +1,24 @@
 <script>
   import applicationData from "../stores/ApplicationData.js";
   import { fade } from "svelte/transition";
-  import { Button, Container, Row, TextField, Textarea, ProgressLinear } from "svelte-materialify";
+  import { Button, Container, Row, TextField, Textarea, ProgressLinear, Select } from "svelte-materialify";
   import { navigate } from "svelte-routing";
   import generalAssets from "../data/Assets";
   import { onDestroy, onMount } from "svelte";
   import userState from "../stores/User";
   import UIState from "../stores/UI";
   import { checkLocalUserPrivate } from "../helpers/authActions";
+
+  import { dict, locale, t } from "../stores/i18n";
+  import translations from "../helpers/translations";
+
+  $: dict.set(translations);
+
+  const options = [
+    { name: "English", value: "En" },
+    { name: "Español", value: "Sp" },
+    { name: "Português", value: "Pr" },
+  ];
 
   let nickname;
   let phone;
@@ -81,47 +92,47 @@
   <Container>
     <Row style="align-items: center; margin-top: 30px">
       <img in:fade class="logo" src={generalAssets.mainLogo} alt="" />
+      <div style="margin-left: 50px; width: 150px; margin-top: 10px"><Select bind:value={$locale} items={options} /></div>
     </Row>
     <Row style="margin-top: 60px; min-height: 80vh; justify-content: center; align-items: center">
       <form in:fade on:submit={continueToNextScreen}>
-        <h4 class="fontBold">ePioneers application</h4>
+        <h4 class="fontBold">{$t("general.apply")}</h4>
         <img style="margin-bottom: 20px" src={generalAssets.steps1} alt="" />
         <div class="containerApp">
           <div style="display: flex">
             <TextField style="margin-bottom: 20px; margin-right: 10px; width: 100px" color="light-blue" bind:value={nickname}
-              >Preferred name/nickname</TextField
+              >{$t("general.nickname")}</TextField
             >
             <TextField type="tel" style="margin-bottom: 20px; margin-left: 10px; width: 100px" color="light-blue" bind:value={phone}
-              >Your phone number</TextField
+              >{$t("general.phone")}</TextField
             >
           </div>
 
           <div style="display: flex; margin-top: 40px">
             <TextField style="margin-bottom: 20px; margin-right: 10px; width: 100px" color="light-blue" bind:value={country}
-              >Country of birth</TextField
+              >{$t("general.country")}</TextField
             >
             <TextField style="margin-bottom: 20px; margin-right: 10px; width: 100px" color="light-blue" bind:value={citizenship}
-              >Citizenship</TextField
+              >{$t("general.city")}</TextField
             >
             <TextField
               type="date"
               placeholder="mm /dd / yy"
               style="margin-bottom: 20px; width: 100px;"
               color="light-blue"
-              bind:value={dateofbirth}
-            >Date of birth</TextField
+              bind:value={dateofbirth}>{$t("general.birth")}</TextField
             >
           </div>
 
           <Textarea style="margin-bottom: 20px; margin-top: 50px" color="light-blue" filled={true} bind:value={mailingAdress}
-            >What is your current mailing address?</Textarea
+            >{$t("general.mail")}</Textarea
           >
 
-          <p class="font">With what gender do you identify?</p>
+          <p class="font">{$t("general.gender")}</p>
           <div style="display: flex; margin-top: 40px">
             {#if sex === "male"}
               <section style="min-width: 33%; height: 58px; background-color: #f2f8f8;  ">
-                <p class="selection fontBold">Male</p>
+                <p class="selection fontBold">{$t("general.male")}</p>
                 <img class="selectedArrow" src={generalAssets.selectedArrow} alt="" />
               </section>
             {:else}
@@ -130,12 +141,14 @@
                   setSex("male");
                 }}
                 style="min-width: 33%; height: 58px; "
-              ><p class="selection2 font">Male</p></section>
+              >
+                <p class="selection2 font">{$t("general.male")}</p>
+              </section>
             {/if}
 
             {#if sex === "female"}
               <section style="margin-left: 10px; min-width: 33%; height: 58px; background-color: #f2f8f8;  ">
-                <p class="selection fontBold">Female</p>
+                <p class="selection fontBold">{$t("general.female")}</p>
                 <img class="selectedArrow" src={generalAssets.selectedArrow} alt="" />
               </section>
             {:else}
@@ -144,12 +157,14 @@
                   setSex("female");
                 }}
                 style="min-width: 33%; height: 58px; "
-              ><p class="selection3 font">Female</p></section>
+              >
+                <p class="selection3 font">{$t("general.female")}</p>
+              </section>
             {/if}
 
             {#if sex === "non-binary"}
               <section style="margin-left: 10px; min-width: 33%; height: 58px; background-color: #f2f8f8;  ">
-                <p class="selection fontBold">Non-Binary</p>
+                <p class="selection fontBold">{$t("general.none")}</p>
                 <img class="selectedArrow" src={generalAssets.selectedArrow} alt="" />
               </section>
             {:else}
@@ -158,7 +173,9 @@
                   setSex("non-binary");
                 }}
                 style="min-width: 33%; height: 58px; "
-              ><p class="selection3 font">Non-Binary</p></section>
+              >
+                <p class="selection3 font">{$t("general.none")}</p>
+              </section>
             {/if}
           </div>
 

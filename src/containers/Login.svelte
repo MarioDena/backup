@@ -1,12 +1,23 @@
 <script>
   import { fade } from "svelte/transition";
-  import { Button, Container, ProgressCircular, ProgressLinear, Row, TextField } from "svelte-materialify";
+  import { Button, Container, ProgressCircular, ProgressLinear, Row, TextField, Select } from "svelte-materialify";
   import { navigate } from "svelte-routing";
   import generalAssets from "../data/Assets";
   import { onDestroy, onMount } from "svelte";
   import UIState from "../stores/UI";
   import { checkLocalUserPublic, loginUser } from "../helpers/authActions";
   import userState from "../stores/User";
+
+  import { dict, locale, t } from "../stores/i18n";
+  import translations from "../helpers/translations";
+
+  $: dict.set(translations);
+
+  const options = [
+    { name: "English", value: "En" },
+    { name: "Español", value: "Sp" },
+    { name: "Português", value: "Pr" },
+  ];
 
   let email;
   let password;
@@ -60,12 +71,16 @@
   <Container>
     <Row style="align-items: center; margin-top: 30px">
       <img in:fade class="logo" src={generalAssets.mainLogo} alt="" />
-      <img in:fade on:click={goToSignup} class="apply" src={generalAssets.applyButton} alt="apply" />
+      <div style="margin-left: 50px; width: 150px; margin-top: 10px"><Select bind:value={$locale} items={options} /></div>
+      <div on:click={goToSignup} style="display: flex; margin-left: auto; cursor: pointer">
+        <p class="font" style="font-size: 22px; margin-left: auto">{$t("general.applyToProgram")}</p>
+        <img in:fade class="apply" src={generalAssets.applyArrow} alt="apply" />
+      </div>
     </Row>
     <Row style=" height: 90vh; justify-content: center; align-items: center">
       <form in:fade on:submit={Login}>
         <div>
-          <h4 class="fontBold">Login</h4>
+          <h4 class="fontBold">{$t("general.login")}</h4>
           <TextField
             hint={errorMail || errorGeneral}
             error={$UIState.errors.email || $UIState.errors.general ? true : false}
@@ -73,8 +88,7 @@
             color="light-blue"
             disabled={$UIState.loadingData}
             filled={true}
-            bind:value={email}
-          >Your email address</TextField
+            bind:value={email}>{$t("general.yourEmail")}</TextField
           >
           <TextField
             hint={errorPassword || errorGeneral}
@@ -83,14 +97,13 @@
             disabled={$UIState.loadingData}
             color="light-blue"
             filled={true}
-            bind:value={password}
-          >Password</TextField
+            bind:value={password}>{$t("general.password")}</TextField
           >
-          <a href="/Recover" class="font">Forgot Password?</a>
+          <a href="/Recover" class="font">{$t("general.forgotPassword")}</a>
           {#if $UIState.loadingData === true}
             <ProgressCircular style="margin-left: 50%; transform: translate(-50%); margin-top: 50px;" indeterminate={true} />
           {:else}
-            <img on:click={Login} class="loginButton" src={generalAssets.loginButton} alt="" />
+            <div on:click={Login} class="loginButton fontBold">{$t("general.login")}</div>
           {/if}
         </div>
         <Button style="visibility:hidden" type="submit" on:click={Login} />
@@ -105,6 +118,13 @@
     z-index: 300;
   }
   .loginButton {
+    border-radius: 100px;
+    color: #1bacea;
+    padding: 5px;
+    background-color: #f2f8f8;
+    text-align: center;
+    width: 108px;
+    height: 33px;
     cursor: pointer;
     margin-left: 50%;
     transform: translate(-50%);
@@ -145,10 +165,9 @@
   }
   .apply {
     cursor: pointer;
-    margin-left: auto;
-    margin-top: 10px;
+    margin-left: 10px;
+    margin-top: 5px;
     margin-right: 10px;
-    width: 221px;
     height: 23px;
   }
   .apply:hover {
