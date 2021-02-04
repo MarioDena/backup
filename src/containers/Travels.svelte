@@ -178,7 +178,7 @@
 					<Col>
 						<input
 							type="text"
-							style="font-size: 24px; background-color: white; width: 20em; margin-bottom: 10px; border-radius: 5px; justify-self: left"
+							style="padding-left: 10px; font-size: 24px; background-color: white; width: 20em; margin-bottom: 10px; border-radius: 5px; justify-self: left"
 							placeholder={$t("general.searchArea")}
 						/>
 					</Col>
@@ -191,7 +191,8 @@
 				<Row style="justify-content: center; margin-bottom: 10px">
 					<Col>
 						<img
-							src="https://www.w3schools.com/images/w3schools_green.jpg"
+							style="border-radius: 15%;"
+							src="https://i.ibb.co/tQsDrkk/White-image.jpg"
 							alt=""
 						/>
 						<div>
@@ -202,7 +203,8 @@
 					</Col>
 					<Col>
 						<img
-							src="https://www.w3schools.com/images/w3schools_green.jpg"
+							style="border-radius: 15%;"
+							src="https://i.ibb.co/tQsDrkk/White-image.jpg"
 							alt=""
 						/>
 						<div>
@@ -213,7 +215,8 @@
 					</Col>
 					<Col>
 						<img
-							src="https://www.w3schools.com/images/w3schools_green.jpg"
+							style="border-radius: 15%;"
+							src="https://i.ibb.co/tQsDrkk/White-image.jpg"
 							alt=""
 						/>
 						<div>
@@ -224,7 +227,8 @@
 					</Col>
 					<Col>
 						<img
-							src="https://www.w3schools.com/images/w3schools_green.jpg"
+							style="border-radius: 15%;"
+							src="https://i.ibb.co/tQsDrkk/White-image.jpg"
 							alt=""
 						/>
 						<div>
@@ -235,7 +239,8 @@
 					</Col>
 					<Col>
 						<img
-							src="https://www.w3schools.com/images/w3schools_green.jpg"
+							style="border-radius: 15%;"
+							src="https://i.ibb.co/tQsDrkk/White-image.jpg"
 							alt=""
 						/>
 						<div>
@@ -246,7 +251,8 @@
 					</Col>
 					<Col>
 						<img
-							src="https://www.w3schools.com/images/w3schools_green.jpg"
+							style="border-radius: 15%;"
+							src="https://i.ibb.co/tQsDrkk/White-image.jpg"
 							alt=""
 						/>
 						<div>
